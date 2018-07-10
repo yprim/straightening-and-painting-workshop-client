@@ -1,0 +1,23 @@
+<div class="table-responsive">
+	<table class="table table-striped table-sm">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Price</th>
+				<th>Category</th>
+				<th>Images</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			<tr *ngFor="let client of getClients()">
+				<td>{{client.clientIdentification}}</td>
+				<td>{{client.name}}</td>
+				<td>{{client.lastname}}</td>
+				<td>{{client.telephone}}</td>
+				<td>{{client.address}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
