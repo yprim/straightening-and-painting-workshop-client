@@ -1,3 +1,138 @@
-<p>
-  vehicle works!
-</p>
+<div class="right top">
+	<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addVehicleModal">Agregar vehículo</button>
+</div>
+
+<div class="table-responsive top">
+	<table class="table table-striped table-sm">
+		<thead>
+			<tr>
+				<th>Placa</th>
+				<th>Color</th>
+				<th>Marca</th>
+				<th>Estilo</th>
+				<th>Año</th>
+				<th>Capacidad</th>
+        <th>Peso</th>
+        <th>Número chasis</th>
+        <th>Editar</th>
+        <th>Borrar</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let vehicle of getVehicles() | paginate: { itemsPerPage:5, currentPage: p }">
+				<td>{{vehicle.licenseNumber}}</td>
+        <td>{{vehicle.color}}</td>
+        <td>{{vehicle.brand}}</td>
+        <td>{{vehicle.style}}</td>
+        <td>{{vehicle.year}}</td>
+        <td>{{vehicle.capacity}}</td>
+        <td>{{vehicle.weight}}</td>
+        <td>{{vehicle.chassis_number}}</td>
+				<td>
+					<button type="button" class="btn btn-primary" (click)="loadEdit(vehicle)" data-toggle="modal" data-target="#editVehicleModal">Editar</button>
+				</td>
+				<td>
+					<button type="button" class="btn btn-danger" (click)="deleteVehicle(vehicle)">Borrar</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<pagination-controls (pageChange)="p =$event"></pagination-controls>
+</div>
+
+<!-- Modal Add -->
+<div class="modal fade" id="addVehicleModal" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Agregar vehículo</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-signin">
+					<label for="licenseNumber" class="sr-only">Placa</label>
+					<input type="text" id="licenseNumber" name="licenseNumber" class="form-control" placeholder="Placa"
+					 required autofocus [(ngModel)]="licenseNumber">
+
+					<label for="color" class="sr-only">Color</label>
+					<input type="text" id="color" name="color" class="form-control top" placeholder="Color" required [(ngModel)]="color">
+
+					<label for="brand" class="sr-only">Marca</label>
+					<input type="text" id="brand" name="brand" class="form-control top" placeholder="Marca" required [(ngModel)]="brand">
+
+					<label for="style" class="sr-only">Estilo</label>
+					<input type="text" id="style" name="style" class="form-control top" placeholder="Estilo" required [(ngModel)]="style">
+
+					<label for="year" class="sr-only">Año</label>
+          <input type="text" id="year" name="year" class="form-control top" placeholder="Año" required [(ngModel)]="year">
+
+          <label for="capacity" class="sr-only">Capacidad</label>
+          <input type="text" id="capacity" name="capacity" class="form-control top" placeholder="Capacidad" required [(ngModel)]="capacity">
+          
+          <label for="weight" class="sr-only">Peso</label>
+          <input type="text" id="weight" name="weight" class="form-control top" placeholder="Peso" required [(ngModel)]="weight">
+          
+          <label for="chassis_number" class="sr-only">Número de chasis</label>
+					<input type="text" id="chassis_number" name="chassis_number" class="form-control top" placeholder="Número de chasis" required [(ngModel)]="chassis_number">
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" (click)="addVehicle()">Agregar</button>
+					</div>
+					<div class="center" *ngIf="error">
+						<p class="red">{{ errorMessage }}</p>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Modal Edit -->
+<div class="modal fade" id="editVehicleModal" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Editar vehículo</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-signin">
+            
+            <label for="licenseNumberEdit" class="sr-only">Placa</label>
+					<input type="text" disabled id="licenseNumberEdit" name="licenseNumberEdit" class="form-control" placeholder="Placa"
+					 required autofocus [(ngModel)]="licenseNumberEdit">
+
+					<label for="colorEdit" class="sr-only">Color</label>
+					<input type="text" id="colorEdit" name="colorEdit" class="form-control top" placeholder="Color" required [(ngModel)]="colorEdit">
+
+					<label for="brandEdit" class="sr-only">Marca</label>
+					<input type="text" id="brandEdit" name="brandEdit" class="form-control top" placeholder="Marca" required [(ngModel)]="brandEdit">
+
+					<label for="styleEdit" class="sr-only">Estilo</label>
+					<input type="text" id="styleEdit" name="styleEdit" class="form-control top" placeholder="Estilo" required [(ngModel)]="styleEdit">
+
+					<label for="yearEdit" class="sr-only">Año</label>
+          <input type="text" id="yearEdit" name="yearEdit" class="form-control top" placeholder="Año" required [(ngModel)]="yearEdit">
+
+          <label for="capacityEdit" class="sr-only">Capacidad</label>
+          <input type="text" id="capacityEdit" name="capacityEdit" class="form-control top" placeholder="Capacidad" required [(ngModel)]="capacityEdit">
+          
+          <label for="weightEdit" class="sr-only">Peso</label>
+          <input type="text" id="weightEdit" name="weightEdit" class="form-control top" placeholder="Peso" required [(ngModel)]="weightEdit">
+          
+          <label for="chassis_numberEdit" class="sr-only">Número de chasis</label>
+					<input type="text" id="chassis_numberEdit" name="chassis_numberEdit" class="form-control top" placeholder="Número de chasis" required [(ngModel)]="chassis_numberEdit">
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" (click)="editVehicle()">Editar</button>
+						</div>
+						<div class="center" *ngIf="error">
+							<p class="red">{{ errorMessage }}</p>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
