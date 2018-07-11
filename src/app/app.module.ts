@@ -4,20 +4,23 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AppComponent } from './app.component';
 import { LogicService } from './services/logic.service';
-import { ClientListComponent } from './client-list/client-list.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ClientComponent } from './client/client.component';
+import { VehicleComponent } from './vehicle/vehicle.component';
 
 const appRoutes: Routes = [
-	{ path: 'cliente', component: ClientListComponent },
 	{ path: 'dashboard', component: DashboardComponent },
+	{ path: 'vehicle', component: VehicleComponent },
 	{ path: 'registrar', component: RegisterComponent },
+	{ path: 'client', component: ClientComponent },
 	{ path: 'entrar', component: LoginComponent },
 	{ path: '', component: HomeComponent },
 	{ path: '**', component: PageNotFoundComponent }
@@ -26,19 +29,22 @@ const appRoutes: Routes = [
 @NgModule({
 	declarations: [
 		AppComponent,
-		ClientListComponent,
 		PageNotFoundComponent,
 		HomeComponent,
 		LoginComponent,
 		RegisterComponent,
-		DashboardComponent
+		DashboardComponent,
+		ClientComponent,
+		VehicleComponent
+
 	],
 	imports: [
 		BrowserModule,
 		RouterModule.forRoot(appRoutes),
 		HttpClientModule,
 		HttpModule,
-		FormsModule
+		FormsModule,
+		NgxPaginationModule
 	],
 	providers: [LogicService],
 	bootstrap: [AppComponent]
