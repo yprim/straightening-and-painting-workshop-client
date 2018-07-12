@@ -15,7 +15,6 @@
         <th>Peso</th>
         <th>Número chasis</th>
         <th>Editar</th>
-        <th>Borrar</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -30,9 +29,6 @@
         <td>{{vehicle.chassis_number}}</td>
 				<td>
 					<button type="button" class="btn btn-primary" (click)="loadEdit(vehicle)" data-toggle="modal" data-target="#editVehicleModal">Editar</button>
-				</td>
-				<td>
-					<button type="button" class="btn btn-danger" (click)="deleteVehicle(vehicle)">Borrar</button>
 				</td>
 			</tr>
 		</tbody>

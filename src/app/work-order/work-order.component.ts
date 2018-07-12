@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { WorkOrder } from '../models/workOrder.model';
 import { LogicService } from '../services/logic.service';
 import { IMyDpOptions, IMyDateModel } from 'mydatepicker';
 import Swal from 'sweetalert2';
+import { WorkDetail } from '../models/workDetail.model';
+import { RequiredProduct } from '../models/requiredProduct.model';
+import { Router } from '@angular/router';
+import * as jsPDF from 'jspdf';
 
 @Component({
 	selector: 'app-work-order',
@@ -11,6 +15,7 @@ import Swal from 'sweetalert2';
 })
 export class WorkOrderComponent implements OnInit {
 	public orders: Array<WorkOrder>;
+	public products: Array<RequiredProduct>;
 	public workOrderEdit: WorkOrder;
 	public licenseNumbers: Array<string>;
 	public clientIdentifications: Array<string>;
@@ -24,12 +29,22 @@ export class WorkOrderComponent implements OnInit {
 	public clientIdentification: string;
 	public licenseNumber: string;
 	public error: boolean;
-    public descriptionEdit: string;
-    public tentativeDateEdit: Date;
-    public laborPriceEdit: number;
+	public descriptionEdit: string;
+	public tentativeDateEdit: Date;
+	public laborPriceEdit: number;
+	public addMaterial: string;
+	public addQuantity: string;
+	public addPrice: string;
+	public errorMessageProduct: string;
+	public workOrderIdProducts: string;
 
-	constructor(private logicService: LogicService) {
+	constructor(private logicService: LogicService, private router: Router) {
+		if (!this.logicService.isLoggedIn()) {
+			this.router.navigate(['/entrar']);
+		}
+
 		this.orders = new Array<WorkOrder>();
+		this.products = new Array<RequiredProduct>();
 	}
 
 	ngOnInit() {
@@ -120,7 +135,7 @@ export class WorkOrderComponent implements OnInit {
 		}
 	}
 
-	editOrder(){
+	editOrder() {
 		if (this.isEmpty(this.descriptionEdit) || this.isEmpty(this.tentativeDateEdit) || this.isEmpty(this.laborPriceEdit)) {
 			this.error = true;
 			this.errorMessageEdit = 'Debe ingresar todos los datos';
@@ -142,7 +157,7 @@ export class WorkOrderComponent implements OnInit {
 		}
 	}
 
-	loadEdit(order: WorkOrder){
+	loadEdit(order: WorkOrder) {
 		this.workOrderEdit = order;
 		this.descriptionEdit = order.description;
 		this.tentativeDateEdit = order.tentativeDate;
@@ -156,5 +171,80 @@ export class WorkOrderComponent implements OnInit {
 			(prop.hasOwnProperty('length') && prop.length === 0) ||
 			(prop.constructor === Object && Object.keys(prop).length === 0)
 		);
+	}
+
+	loadProducts(order: WorkOrder) {
+		this.products = [];
+		this.workOrderIdProducts = order.workOrderId.toString();
+		this.logicService.getWorkDetails(this.workOrderIdProducts).subscribe(data => {
+			data.map(detail => {
+				detail.products.map(product => {
+					this.products.push(product);
+				});
+			});
+		});
+	}
+
+	getProducts() {
+		return this.products;
+	}
+
+	addProduct() {
+		if (this.isEmpty(this.addMaterial) || this.isEmpty(this.addQuantity) || this.isEmpty(this.addPrice)) {
+			this.error = true;
+			this.errorMessageProduct = 'Debe ingresar todos los datos';
+		} else {
+			this.error = false;
+			this.errorMessageProduct = '';
+
+			const requiredProducts: Array<RequiredProduct> = new Array<RequiredProduct>();
+			const product: RequiredProduct = new RequiredProduct(0, this.addMaterial, Number(this.addQuantity), Number(this.addPrice), 0);
+			requiredProducts.push(product);
+
+			const workDetail: WorkDetail = new WorkDetail(0, 0, '', Number(this.workOrderIdProducts), requiredProducts);
+
+			this.logicService.addWorkDetail(workDetail).subscribe(data => {
+				Swal('Listo', 'Se ha agregado', 'success');
+				this.addMaterial = '';
+				this.addQuantity = '';
+				this.addPrice = '';
+
+				this.products = [];
+				this.logicService.getWorkDetails(this.workOrderIdProducts).subscribe(data => {
+					data.map(detail => {
+						detail.products.map(product => {
+							this.products.push(product);
+						});
+					});
+				});
+			});
+		}
+	}
+
+	@ViewChild('content') content: ElementRef;
+	downloadPDF() {
+		let doc = new jsPDF();
+
+		let specialElementHandlers = {
+			'#editor': function (element, renderer) {
+				return true;
+			}
+		};
+
+		let content = this.content.nativeElement;
+
+		doc.text(20, 20, 'Taller de Enderezado y Pintura');
+		doc.text(20, 30, 'Cedula jurídica: 01-2345-6789');
+		doc.text(20, 40, 'Telefono: 86238284 - 258389482');
+
+		const date = new Date();
+		doc.text(20, 50, 'Fecha: ' + date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
+
+		doc.fromHTML(content.innerHTML, 15, 50, {
+			'width': 190,
+			'elementHandlers': specialElementHandlers
+		});
+
+		doc.save('Orden de trabajo.pdf');
 	}
 }

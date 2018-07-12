@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LogicService } from '../services/logic.service';
 import Swal from 'sweetalert2';
 import { User } from '../models/user.model';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-register',
@@ -16,7 +17,11 @@ export class RegisterComponent implements OnInit {
 	public errorMessage: string;
 	public error: boolean;
 
-	constructor(private logicService: LogicService) { }
+	constructor(private logicService: LogicService, private router: Router) {
+		if (this.logicService.isLoggedIn()) {
+			this.router.navigate(['/dashboard']);
+		}
+	}
 
 	ngOnInit() {
 	}

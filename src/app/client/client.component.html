@@ -12,7 +12,6 @@
 				<th>Teléfono</th>
 				<th>Dirección</th>
 				<th>Editar</th>
-				<th>Borrar</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -24,9 +23,6 @@
 				<td>{{client.address}}</td>
 				<td>
 					<button type="button" class="btn btn-primary" (click)="loadEdit(client)" data-toggle="modal" data-target="#editClientModal">Editar</button>
-				</td>
-				<td>
-					<button type="button" class="btn btn-danger" (click)="deleteClient(client)">Borrar</button>
 				</td>
 			</tr>
 		</tbody>

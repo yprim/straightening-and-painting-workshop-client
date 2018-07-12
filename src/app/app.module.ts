@@ -18,9 +18,11 @@ import { VehicleComponent } from './vehicle/vehicle.component';
 import { WorkOrderComponent } from './work-order/work-order.component';
 
 import { MyDatePickerModule } from 'mydatepicker';
+import { ExitComponent } from './exit/exit.component';
 
 const appRoutes: Routes = [
 	{ path: 'order', component: WorkOrderComponent },
+	{ path: 'salir', component: ExitComponent },
 	{ path: 'dashboard', component: DashboardComponent },
 	{ path: 'vehicle', component: VehicleComponent },
 	{ path: 'registrar', component: RegisterComponent },
@@ -40,7 +42,8 @@ const appRoutes: Routes = [
 		DashboardComponent,
 		ClientComponent,
 		VehicleComponent,
-		WorkOrderComponent
+		WorkOrderComponent,
+		ExitComponent
 
 	],
 	imports: [

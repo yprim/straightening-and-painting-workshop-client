@@ -14,7 +14,11 @@ export class LoginComponent implements OnInit {
 	public error: boolean;
 	public errorMessage: string;
 
-	constructor(private logic: LogicService, private router: Router) { }
+	constructor(private logic: LogicService, private router: Router) {
+		if (this.logic.isLoggedIn()) {
+			this.router.navigate(['/dashboard']);
+		}
+	}
 
 	ngOnInit() {
 	}

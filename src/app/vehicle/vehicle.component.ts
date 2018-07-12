@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Vehicle } from '../models/vehicle.model';
 import { LogicService } from '../services/logic.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-vehicle',
@@ -29,7 +30,11 @@ export class VehicleComponent implements OnInit {
 	public error: boolean;
 	public errorMessage: string;
 
-	constructor(private logicService: LogicService) { }
+	constructor(private logicService: LogicService, private router: Router) { 
+		if (!this.logicService.isLoggedIn()) {
+			this.router.navigate(['/entrar']);
+		}
+	}
 
 	ngOnInit() {
 		this.loadVehicles();

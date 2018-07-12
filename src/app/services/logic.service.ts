@@ -6,6 +6,7 @@ import { Client } from "../models/client.model";
 import { User } from "../models/user.model";
 import { Vehicle } from "../models/vehicle.model";
 import { WorkOrder } from "../models/workOrder.model";
+import { WorkDetail } from "../models/workDetail.model";
 
 @Injectable()
 export class LogicService {
@@ -101,6 +102,17 @@ export class LogicService {
 
 	editWorkOrder(workOrder: WorkOrder): Observable<WorkOrder> {
 		return this.http.put(this.url + "workOrder/" + workOrder.workOrderId, workOrder, { headers: this.headers })
+			.pipe(map(response => response.json()))
+	}
+
+	//////////////////////////////////// DETAILS
+	getWorkDetails(workOrderId: string): Observable<WorkDetail[]> {
+		return this.http.get(this.url + "workDetail/" + workOrderId, { headers: this.headers })
+			.pipe(map(response => response.json()))
+	}
+
+	addWorkDetail(workDetail: WorkDetail): Observable<WorkDetail> {
+		return this.http.post(this.url + "workDetail/", workDetail, { headers: this.headers })
 			.pipe(map(response => response.json()))
 	}
 }
