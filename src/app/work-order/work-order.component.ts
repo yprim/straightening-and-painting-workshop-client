@@ -130,6 +130,13 @@ export class WorkOrderComponent implements OnInit {
 
 				this.logicService.getWorkOrders(this.licenseNumber).subscribe(data => {
 					this.orders = data;
+					if (this.orders.length !== 0) {
+						this.isLicense = true;
+						this.errorMessage = '';
+					} else {
+						this.isLicense = false;
+						this.errorMessage = 'No existen ordenes para la placa seleccionada';
+					}
 				});
 			});
 		}
@@ -216,6 +223,17 @@ export class WorkOrderComponent implements OnInit {
 							this.products.push(product);
 						});
 					});
+				});
+
+				this.logicService.getWorkOrders(this.licenseNumber).subscribe(data => {
+					this.orders = data;
+					if (this.orders.length !== 0) {
+						this.isLicense = true;
+						this.errorMessage = '';
+					} else {
+						this.isLicense = false;
+						this.errorMessage = 'No existen ordenes para la placa seleccionada';
+					}
 				});
 			});
 		}

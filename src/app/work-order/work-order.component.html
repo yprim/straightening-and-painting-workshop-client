@@ -21,6 +21,7 @@
 						<th>Descripción</th>
 						<th>Fecha tentativa</th>
 						<th>Cliente</th>
+						<th>Total</th>
 						<th>Productos</th>
 						<th>Editar</th>
 					</tr>
@@ -30,6 +31,7 @@
 						<td>{{order.description}}</td>
 						<td>{{order.tentativeDate | date : "fullDate" }}</td>
 						<td>{{order.clientIdentification}}</td>
+						<td>{{ order.detailsPrice }}</td>
 						<td>
 							<button type="button" class="btn btn-success" (click)="loadProducts(order)" data-toggle="modal" data-target="#addProducts">Productos</button>
 						</td>
@@ -151,10 +153,10 @@
 									<input type="text" id="addMaterial" name="addMaterial" class="form-control" placeholder="Material" required [(ngModel)]="addMaterial">
 								</td>
 								<td>
-									<input type="text" id="addQuantity" name="addQuantity" class="form-control" placeholder="Material" required [(ngModel)]="addQuantity">
+									<input type="text" id="addQuantity" name="addQuantity" class="form-control" placeholder="Cantidad" required [(ngModel)]="addQuantity">
 								</td>
 								<td>
-									<input type="text" id="addPrice" name="addPrice" class="form-control" placeholder="Material" required [(ngModel)]="addPrice">
+									<input type="text" id="addPrice" name="addPrice" class="form-control" placeholder="Precio" required [(ngModel)]="addPrice">
 								</td>
 								<td>
 									<button type="button" class="btn btn-primary" (click)="addProduct()">Agregar</button>
