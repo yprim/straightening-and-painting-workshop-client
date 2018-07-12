@@ -77,39 +77,39 @@
 
 <!-- Modal Edit -->
 <div class="modal fade" id="editClientModal" role="dialog">
-		<div class="modal-dialog">
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">Editar cliente</h4>
-				</div>
-				<div class="modal-body">
-					<form class="form-signin">
-						<label for="clientIdentificationEdit" class="sr-only">Identificación</label>
-						<input type="text" disabled id="clientIdentificationEdit" name="clientIdentificationEdit" class="form-control" placeholder="Identificación"
-						 required [(ngModel)]="clientIdentificationEdit">
-	
-						<label for="nameEdit" class="sr-only">Nombre</label>
-						<input type="text" id="nameEdit" name="nameEdit" class="form-control top" placeholder="Nombre" required [(ngModel)]="nameEdit">
-	
-						<label for="lastnameEdit" class="sr-only">Apellido</label>
-						<input type="text" id="lastnameEdit" name="lastnameEdit" class="form-control top" placeholder="Apellido" required [(ngModel)]="lastnameEdit">
-	
-						<label for="telephoneEdit" class="sr-only">Teléfono</label>
-						<input type="text" id="telephoneEdit" name="telephoneEdit" class="form-control top" placeholder="Teléfono" required [(ngModel)]="telephoneEdit">
-	
-						<label for="addressEdit" class="sr-only">Dirección</label>
-						<input type="text" id="addressEdit" name="addressEdit" class="form-control top" placeholder="Dirección" required [(ngModel)]="addressEdit">
-	
-	
-						<div class="modal-footer">
-							<button type="button" class="btn btn-primary" (click)="editClient()">Editar</button>
-						</div>
-						<div class="center" *ngIf="error">
-							<p class="red">{{ errorMessage }}</p>
-						</div>
-					</form>
-				</div>
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Editar cliente</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-signin">
+					<label for="clientIdentificationEdit" class="sr-only">Identificación</label>
+					<input type="text" disabled id="clientIdentificationEdit" name="clientIdentificationEdit" class="form-control" placeholder="Identificación"
+					 required [(ngModel)]="clientIdentificationEdit">
+
+					<label for="nameEdit" class="sr-only">Nombre</label>
+					<input type="text" id="nameEdit" name="nameEdit" class="form-control top" placeholder="Nombre" required [(ngModel)]="nameEdit">
+
+					<label for="lastnameEdit" class="sr-only">Apellido</label>
+					<input type="text" id="lastnameEdit" name="lastnameEdit" class="form-control top" placeholder="Apellido" required [(ngModel)]="lastnameEdit">
+
+					<label for="telephoneEdit" class="sr-only">Teléfono</label>
+					<input type="text" id="telephoneEdit" name="telephoneEdit" class="form-control top" placeholder="Teléfono" required [(ngModel)]="telephoneEdit">
+
+					<label for="addressEdit" class="sr-only">Dirección</label>
+					<input type="text" id="addressEdit" name="addressEdit" class="form-control top" placeholder="Dirección" required [(ngModel)]="addressEdit">
+
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" (click)="editClient()">Editar</button>
+					</div>
+					<div class="center" *ngIf="error">
+						<p class="red">{{ errorMessage }}</p>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
+</div>

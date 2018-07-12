@@ -15,8 +15,12 @@ import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ClientComponent } from './client/client.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
+import { WorkOrderComponent } from './work-order/work-order.component';
+
+import { MyDatePickerModule } from 'mydatepicker';
 
 const appRoutes: Routes = [
+	{ path: 'order', component: WorkOrderComponent },
 	{ path: 'dashboard', component: DashboardComponent },
 	{ path: 'vehicle', component: VehicleComponent },
 	{ path: 'registrar', component: RegisterComponent },
@@ -35,7 +39,8 @@ const appRoutes: Routes = [
 		RegisterComponent,
 		DashboardComponent,
 		ClientComponent,
-		VehicleComponent
+		VehicleComponent,
+		WorkOrderComponent
 
 	],
 	imports: [
@@ -44,7 +49,8 @@ const appRoutes: Routes = [
 		HttpClientModule,
 		HttpModule,
 		FormsModule,
-		NgxPaginationModule
+		NgxPaginationModule,
+		MyDatePickerModule
 	],
 	providers: [LogicService],
 	bootstrap: [AppComponent]

@@ -1,0 +1,114 @@
+<div class="form-group top">
+	<select class="form-control" id="licenseNumber" required (change)="onChangeLicense($event)">
+		<option value="null">Ingrese el número de placa</option>
+		<option *ngFor="let licenseNumber of getLicenseNumbers()" [value]="licenseNumber">{{licenseNumber}}</option>
+	</select>
+</div>
+
+<div class="right top" *ngIf="showAddButton">
+	<button type="button" class="btn btn-success" (click)="fillIdentifications()" data-toggle="modal" data-target="#addOrderModal">Agregar orden</button>
+</div>
+
+<h3 class="red center">{{ errorMessage }}</h3>
+
+<div *ngIf="isLicense">
+	<div class="table-responsive top">
+		<table class="table table-striped table-sm">
+			<thead>
+				<tr>
+					<th>Descripción</th>
+					<th>Fecha tentativa</th>
+					<th>Cliente</th>
+					<th>Editar</th>
+					<th>Borrar</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let order of getOrders() | paginate: { itemsPerPage:5, currentPage: p }">
+					<td>{{order.description}}</td>
+					<td>{{order.tentativeDate | date : "fullDate" }}</td>
+					<td>{{order.clientIdentification}}</td>
+					<td>
+						<button type="button" class="btn btn-primary" (click)="loadEdit(order)" data-toggle="modal" data-target="#editOrderModal">Editar</button>
+					</td>
+					<td>
+						<button type="button" class="btn btn-danger" (click)="deleteOrder(order)">Borrar</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!-- Modal Add -->
+<div class="modal fade" id="addOrderModal" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Agregar una order de trabajo</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-signin">
+					<label for="description" class="sr-only">Ingrese la descripción</label>
+					<input type="text" id="description" name="description" class="form-control" placeholder="Ingrese la descripción" required
+					 [(ngModel)]="description">
+
+					<form #myForm="ngForm" novalidate>
+						<my-date-picker name="mydate" [options]="myDatePickerOptions" (dateChanged)="onDateChanged($event)" [(ngModel)]="mydate" required></my-date-picker>
+					</form>
+
+					<div class="form-group top">
+						<select class="form-control" id="clientIdentification" required (change)="onChangeIdentification($event)">
+							<option value="null">Ingrese el número de identificacion</option>
+							<option *ngFor="let clientIdentification of getClientIdentifications()" [value]="clientIdentification">{{clientIdentification}}</option>
+						</select>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" (click)="addOrder()">Agregar</button>
+					</div>
+					<div class="center" *ngIf="error">
+						<p class="red">{{ errorMessageAdd }}</p>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<!-- Modal Edit -->
+<div class="modal fade" id="editOrderModal" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Editar la order de trabajo</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-signin">
+					<label for="descriptionEdit" class="sr-only">Ingrese la descripción</label>
+					<input type="text" id="descriptionEdit" name="descriptionEdit" class="form-control" placeholder="Ingrese la descripción" required
+					 [(ngModel)]="descriptionEdit">
+
+					<form #myForm="ngForm" novalidate>
+						<my-date-picker name="mydate2" [options]="myDatePickerOptions" (dateChanged)="onDateChangedEdit($event)" [(ngModel)]="mydate2" required></my-date-picker>
+					</form>
+
+					<label for="laborPriceEdit" class="sr-only">Ingrese el precio del trabajo</label>
+					<input type="text" id="laborPriceEdit" name="laborPriceEdit" class="form-control" placeholder="Ingrese el precio del trabajo" required
+					 [(ngModel)]="laborPriceEdit">
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" (click)="editOrder()">Editar</button>
+					</div>
+					<div class="center" *ngIf="error">
+						<p class="red">{{ errorMessageEdit }}</p>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

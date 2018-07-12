@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Client } from "../models/client.model";
 import { User } from "../models/user.model";
 import { Vehicle } from "../models/vehicle.model";
+import { WorkOrder } from "../models/workOrder.model";
 
 @Injectable()
 export class LogicService {
@@ -85,5 +86,21 @@ export class LogicService {
 	deleteVehicle(vehicle: Vehicle) {
 		console.log('TODO borrar');
 		console.log(vehicle);
+	}
+
+	//////////////////////////////////// ORDERS
+	getWorkOrders(licenseNumber: string): Observable<WorkOrder[]> {
+		return this.http.get(this.url + "workOrder/" + licenseNumber, { headers: this.headers })
+			.pipe(map(response => response.json()))
+	}
+	
+	addWorkOrder(workOrder: WorkOrder): Observable<WorkOrder> {
+		return this.http.post(this.url + "workOrder/", workOrder, { headers: this.headers })
+			.pipe(map(response => response.json()))
+	}
+
+	editWorkOrder(workOrder: WorkOrder): Observable<WorkOrder> {
+		return this.http.put(this.url + "workOrder/" + workOrder.workOrderId, workOrder, { headers: this.headers })
+			.pipe(map(response => response.json()))
 	}
 }
